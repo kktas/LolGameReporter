@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "LolGameReporter.TelegramBot": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
