@@ -1,24 +1,17 @@
-﻿using Core.Services.Database;
-using Core.Services.ThirdPartyAPIs.TelegramBot;
-using Core.Services.ThirdPartyAPIs.TelegramBot.Commands;
-using Core.Services.ThirdPartyAPIs.TelegramBot.Events;
-using Microsoft.Extensions.Caching.Distributed;
+﻿using Core.Services.ThirdPartyAPIs.TelegramBot;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Services.ThirdPartyAPIs.TelegramBot;
-using System.Text.RegularExpressions;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-
 namespace TelegramBot
 {
-    public class BotService(
+    public class Bot(
         ITelegramBotClientService _telegramBotClientService,
-        ILogger<BotService> logger,
+        ILogger<Bot> logger,
         IServiceProvider serviceProvider,
         ITelegramBotUpdateHandler telegramBotUpdateHandler
     ) : BackgroundService

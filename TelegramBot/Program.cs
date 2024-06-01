@@ -29,7 +29,7 @@ internal class Program
                 .AddRedisService(configuration)
                 .AddRedLockService(configuration)
                 .AddHangfireService(configuration)
-                .AddHostedService<BotService>();
+                .AddHostedService<Bot>();
         });
 
         var app = builder.Build();
