@@ -1,6 +1,7 @@
 ﻿using Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
 
 namespace Data.Configurations
 {
@@ -19,9 +20,12 @@ namespace Data.Configurations
             builder.Property(a => a.Puuid)
                 .IsRequired();
 
-            builder.HasOne(a => a.Chat)
-                .WithMany(c => c.Accounts)
-                .HasForeignKey(a => a.ChatId);
+            builder.HasMany(s => s.Chats)
+            .WithMany(c => c.Accounts)
+            .UsingEntity<Dictionary<string, object>>(
+                "t_account_chat",
+                j => j.HasOne<Chat>().WithMany().HasForeignKey("ChatId"),
+                j => j.HasOne<Account>().WithMany().HasForeignKey("AccountId"));
 
             builder.ToTable("t_account", "main");
         }

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.ThirdPartyAPIs.Riot.Spectator
+namespace Services.ThirdPartyAPIs.Riot.Region
 {
-    public class SpectatorAPIService
+    public interface IAsiaAPI : IRegionAPI
     {
     }
 }

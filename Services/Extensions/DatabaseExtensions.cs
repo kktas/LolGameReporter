@@ -15,7 +15,7 @@ namespace LolGameReporter.Services.Extensions
             services.AddDbContext<LolGameReporterDbContext>(options =>
                 options.UseNpgsql(
                     configuration.GetConnectionString("Connection"),
-                    x => x.MigrationsAssembly("LolGameReporter.Data")
+                    x => x.MigrationsAssembly("Data")
                 )
             );
 
@@ -30,6 +30,8 @@ namespace LolGameReporter.Services.Extensions
             // Add ServicesAddD
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IChatService, ChatService>();
+            services.AddTransient<IRegionService, RegionService>();
+            services.AddTransient<IServerService, ServerService>();
 
             return services;
         }

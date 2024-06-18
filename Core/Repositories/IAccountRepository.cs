@@ -4,5 +4,6 @@ namespace Core.Repositories
 {
     public interface IAccountRepository : IRepository<Account>
     {
+        public Task<Account?> GetAccountByNameTagLinePuuidServerWithChats(string gameName, string tagLine, string puuid, int serverId);
     }
 }

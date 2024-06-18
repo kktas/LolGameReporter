@@ -9,6 +9,10 @@ namespace Core.Services.ThirdPartyAPIs.TelegramBot.Commands
     public enum TelegramCommandType
     {
         None,
-        ActiveGames
+        ActiveGames,
+        ActiveGamesSelectUser,
+        AddAccount,
+        AddAccountSelectServer,
+        AddAccountEnterAccountName
     }
 }

@@ -8,7 +8,7 @@ namespace Services.ThirdPartyAPIs.TelegramBot.Commands
     public class UnknownCommandHandler(ITelegramBotClientService botClientService) : ICommandHandler
     {
 
-        public async virtual Task HandleCommandAsync(Update update, CancellationToken cts)
+        public async virtual Task HandleCommandAsync(Update update, CancellationToken cts, CommandData _)
         {
             var botClient = botClientService.BotClient;
             var chatId = update.Message?.Chat.Id;

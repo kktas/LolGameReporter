@@ -1,4 +1,5 @@
 ﻿using Core.Models.ModelBase;
+using System.Net.Security;
 
 namespace Core.Models
 {
@@ -7,8 +8,9 @@ namespace Core.Models
         public string GameName { get; set; } = string.Empty;
         public string TagLine { get; set; } = string.Empty;
         public string Puuid { get; set; } = string.Empty;
-        public int ChatId { get; set; }
-        public required Chat Chat { get; set; }
+        public int ServerId { get; set; }
+        public Server Server { get; set; }
+        public List<Chat> Chats { get; set; }
 
     }
 }

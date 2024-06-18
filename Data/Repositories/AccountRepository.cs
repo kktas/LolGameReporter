@@ -1,12 +1,25 @@
 ﻿using Core.Models;
 using Core.Repositories;
+using Core.Services.Cache;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Distributed;
+using System;
 
 namespace Data.Repositories
 {
-    public class AccountRepository(DbContext context, IDistributedCache distributedCache)
-        : Repository<Account>(context, distributedCache), IAccountRepository
+    public class AccountRepository(DbContext context, IRedisCacheService cache)
+        : Repository<Account>(context, cache), IAccountRepository
     {
+        public async Task<Account?> GetAccountByNameTagLinePuuidServerWithChats(string gameName, string tagLine, string puuid, int serverId)
+        {
+            return await Context.Set<Account>()
+                .Include(a => a.Chats)
+                .FirstOrDefaultAsync(a =>
+                    a.GameName == gameName &&
+                    a.TagLine == tagLine &&
+                    a.Puuid == puuid &&
+                    a.ServerId == serverId
+                );
+        }
+
     }
 }

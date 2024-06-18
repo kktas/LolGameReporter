@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Core.Services.Cache;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RedLockNet;
 using RedLockNet.SERedis;
@@ -12,7 +13,7 @@ namespace LolGameReporter.Services.Extensions
         public static IServiceCollection AddRedisService(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddStackExchangeRedisCache(options => options.Configuration = configuration.GetConnectionString("Redis"));
-
+            services.AddSingleton<IRedisCacheService, RedisCacheService>();
             return services;
         }
 

@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace LolGameReporter.Data.Migrations
+namespace Data.Migrations
 {
     [DbContext(typeof(LolGameReporterDbContext))]
     partial class LolGameReporterDbContextModelSnapshot : ModelSnapshot
@@ -17,21 +17,19 @@ namespace LolGameReporter.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.5")
+                .HasDefaultSchema("main")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("LolGameReporter.Core.Models.Account", b =>
+            modelBuilder.Entity("Core.Models.Account", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ChatId")
-                        .HasColumnType("integer");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -52,18 +50,29 @@ namespace LolGameReporter.Data.Migrations
                     b.Property<string>("DeletedByName")
                         .HasColumnType("text");
 
-                    b.Property<string>("Tag")
+                    b.Property<string>("GameName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Puuid")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("ServerId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TagLine")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChatId");
+                    b.HasIndex("ServerId");
 
                     b.ToTable("t_account", "main");
                 });
 
-            modelBuilder.Entity("LolGameReporter.Core.Models.Chat", b =>
+            modelBuilder.Entity("Core.Models.Chat", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -105,18 +114,214 @@ namespace LolGameReporter.Data.Migrations
                     b.ToTable("t_chat", "main");
                 });
 
-            modelBuilder.Entity("LolGameReporter.Core.Models.Account", b =>
+            modelBuilder.Entity("Core.Models.Region", b =>
                 {
-                    b.HasOne("LolGameReporter.Core.Models.Chat", "Chat")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("CreatedById")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long?>("DeletedById")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("DeletedByName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("t_region", "main");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8365),
+                            CreatedById = 0L,
+                            CreatedByName = "",
+                            Name = "Americas"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8412),
+                            CreatedById = 0L,
+                            CreatedByName = "",
+                            Name = "Europe"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8415),
+                            CreatedById = 0L,
+                            CreatedByName = "",
+                            Name = "Asia"
+                        });
+                });
+
+            modelBuilder.Entity("Core.Models.Server", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long>("CreatedById")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CreatedByName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<long?>("DeletedById")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("DeletedByName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("RegionId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RegionId");
+
+                    b.ToTable("t_server", "main");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8602),
+                            CreatedById = 0L,
+                            CreatedByName = "",
+                            Name = "NA",
+                            RegionId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8607),
+                            CreatedById = 0L,
+                            CreatedByName = "",
+                            Name = "EUW",
+                            RegionId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedAt = new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8610),
+                            CreatedById = 0L,
+                            CreatedByName = "",
+                            Name = "EUNE",
+                            RegionId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedAt = new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8612),
+                            CreatedById = 0L,
+                            CreatedByName = "",
+                            Name = "TR",
+                            RegionId = 2
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedAt = new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8614),
+                            CreatedById = 0L,
+                            CreatedByName = "",
+                            Name = "JP",
+                            RegionId = 3
+                        });
+                });
+
+            modelBuilder.Entity("t_account_chat", b =>
+                {
+                    b.Property<int>("AccountId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChatId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("AccountId", "ChatId");
+
+                    b.HasIndex("ChatId");
+
+                    b.ToTable("t_account_chat", "main");
+                });
+
+            modelBuilder.Entity("Core.Models.Account", b =>
+                {
+                    b.HasOne("Core.Models.Server", "Server")
                         .WithMany("Accounts")
-                        .HasForeignKey("ChatId")
+                        .HasForeignKey("ServerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Chat");
+                    b.Navigation("Server");
                 });
 
-            modelBuilder.Entity("LolGameReporter.Core.Models.Chat", b =>
+            modelBuilder.Entity("Core.Models.Server", b =>
+                {
+                    b.HasOne("Core.Models.Region", "Region")
+                        .WithMany("Servers")
+                        .HasForeignKey("RegionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Region");
+                });
+
+            modelBuilder.Entity("t_account_chat", b =>
+                {
+                    b.HasOne("Core.Models.Account", null)
+                        .WithMany()
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Core.Models.Chat", null)
+                        .WithMany()
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Core.Models.Region", b =>
+                {
+                    b.Navigation("Servers");
+                });
+
+            modelBuilder.Entity("Core.Models.Server", b =>
                 {
                     b.Navigation("Accounts");
                 });

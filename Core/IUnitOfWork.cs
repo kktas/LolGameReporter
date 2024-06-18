@@ -6,6 +6,8 @@ namespace Core
     {
         IChatRepository ChatRepository { get; }
         IAccountRepository AccountRepository { get; }
+        IRegionRepository RegionRepository { get; }
+        IServerRepository ServerRepository { get; }
         Task<int> CommitAsync();
     }
 }

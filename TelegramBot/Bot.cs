@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Services.ThirdPartyAPIs.TelegramBot;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Polling;
@@ -12,14 +13,17 @@ namespace TelegramBot
     public class Bot(
         ITelegramBotClientService _telegramBotClientService,
         ILogger<Bot> logger,
-        IServiceProvider serviceProvider,
-        ITelegramBotUpdateHandler telegramBotUpdateHandler
+        IServiceScopeFactory serviceScopeFactory
     ) : BackgroundService
     {
         protected override async Task ExecuteAsync(CancellationToken _cancellationToken)
         {
+            Console.WriteLine("execute async");
+
             var botClient = _telegramBotClientService.BotClient;
             using CancellationTokenSource cts = new();
+
+            //jobManager.Configure(serviceScopeFactory);
 
             // StartReceiving does not block the caller thread. Receiving is done on the ThreadPool.
             ReceiverOptions receiverOptions = new()
@@ -42,22 +46,9 @@ namespace TelegramBot
         {
             try
             {
-                using IServiceScope scope = serviceProvider.CreateScope();
-
+                using IServiceScope scope = serviceScopeFactory.CreateScope();
+                ITelegramBotUpdateHandler telegramBotUpdateHandler = scope.ServiceProvider.GetService<ITelegramBotUpdateHandler>() ?? throw new Exception("No update handler has been found!");
                 await telegramBotUpdateHandler.HandleAsync(botClient, update, cancellationToken);
-
-                //if (update.Type == UpdateType.CallbackQuery)
-                //{
-                //    var a = await botClient
-                //        .EditMessageTextAsync(
-                //            chatId: update.CallbackQuery.Message.Chat.Id,
-                //            messageId: update.CallbackQuery.Message.MessageId,
-                //            text: $"kek",
-                //            cancellationToken: cancellationToken
-                //    );
-                //    return;
-                //}
-                scope.Dispose();
             }
             catch (Exception ex)
             {

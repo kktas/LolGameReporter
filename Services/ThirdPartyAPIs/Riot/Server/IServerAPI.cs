@@ -1,15 +1,16 @@
-﻿using Refit;
+﻿using Core.Services.Cache.Models;
+using Refit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.ThirdPartyAPIs.Riot
+namespace Services.ThirdPartyAPIs.Riot.Server
 {
-    internal interface IServerAPI
+    public interface IServerAPI
     {
         [Get("/lol/spectator/v5/active-games/by-summoner/{summonerId}")]
-        Task<dynamic> GetActiveGames(string summonerId);
+        Task<ActiveGame> GetActiveGames(string summonerId);
     }
 }

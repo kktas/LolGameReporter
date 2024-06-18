@@ -6,9 +6,11 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Services.ThirdPartyAPIs.TelegramBot.Commands.ActiveGames
 {
-    public class ActiveGamesCommandHandler(ITelegramBotClientService botClientService) : ICommandHandler
+    public class ActiveGamesCommandHandler(ITelegramBotClientService botClientService) : ICommandHandler, ICallbackable
     {
-        public async Task HandleCommandAsync(Update update, CancellationToken cts)
+        public string CallbackName => "activegameselectuser";
+
+        public async Task HandleCommandAsync(Update update, CancellationToken cts, CommandData _)
         {
             var botClient = botClientService.BotClient;
 
@@ -18,16 +20,18 @@ namespace Services.ThirdPartyAPIs.TelegramBot.Commands.ActiveGames
             InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup(
                 new InlineKeyboardButton[][]{
                     // first row
-                    new InlineKeyboardButton[]
+                       new InlineKeyboardButton[]
                     {
-                        InlineKeyboardButton.WithCallbackData(text: "1.1", callbackData: "11"),
-                        InlineKeyboardButton.WithCallbackData(text: "1.2", callbackData: "12")
+                        InlineKeyboardButton.WithCallbackData(text: "user1", callbackData: "selectuser/KKT#TR1"),
+                        InlineKeyboardButton.WithCallbackData(text: "user2", callbackData: "selectuser/KKT2#TR1"),
+                        //InlineKeyboardButton.WithCallbackData(text: "user2", callbackData: "selectuser/user2")
                     },
                     // second row
                     new InlineKeyboardButton[]
                     {
-                        InlineKeyboardButton.WithCallbackData(text: "2.1", callbackData: "21"),
-                        InlineKeyboardButton.WithCallbackData(text: "2.2", callbackData: "22")
+                        InlineKeyboardButton.WithCallbackData(text: "user3", callbackData: "selectuser/user3"),
+                        InlineKeyboardButton.WithCallbackData(text: "user4", callbackData: "selectuser/user4"),
+                        InlineKeyboardButton.WithCallbackData(text: "user5", callbackData: "selectuser/user5")
                     },
                 });
 

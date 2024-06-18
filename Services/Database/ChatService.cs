@@ -23,7 +23,9 @@ namespace Services.Database
         public async Task DeleteChatById(int id, long deletedById, string deletedByName)
         {
             var chat = await _unitOfWork.ChatRepository.GetByIdAsync(id);
-            _unitOfWork.ChatRepository.Delete(chat, deletedById, deletedByName);
+            if (chat is null) return;
+
+            _unitOfWork.ChatRepository.DeleteAsync(chat, deletedById, deletedByName);
 
             await _unitOfWork.CommitAsync();
         }
@@ -31,7 +33,9 @@ namespace Services.Database
         public async Task DeleteChatByTelegramChatId(long telegramChatId, long deletedById, string deletedByName)
         {
             var chat = await _unitOfWork.ChatRepository.GetActiveChatByTelegramChatIdAsync(telegramChatId);
-            _unitOfWork.ChatRepository.Delete(chat, deletedById, deletedByName);
+            if (chat is null) return;
+
+            _unitOfWork.ChatRepository.DeleteAsync(chat, deletedById, deletedByName);
 
             await _unitOfWork.CommitAsync();
         }

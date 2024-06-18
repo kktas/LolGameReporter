@@ -1,11 +1,8 @@
-﻿// See https://aka.ms/new-console-template for more information
-using Hangfire;
-using LolGameReporter.Services.Extensions;
+﻿using LolGameReporter.Services.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TelegramBot;
-using TelegramBot.Jobs;
 
 internal class Program
 {
@@ -23,9 +20,10 @@ internal class Program
                 .AddDbConnection(configuration)
                 .AddDbServices()
                 .AddTelegramBotClient()
-                .AddTelegramUpdateHandler()
+                .AddTelegramUpdateHandlers()
                 .AddTelegramCommandHandlers()
                 .AddTelegramEventHandlers()
+                .AddRiotAPIClients(configuration)
                 .AddRedisService(configuration)
                 .AddRedLockService(configuration)
                 .AddHangfireService(configuration)
@@ -34,9 +32,12 @@ internal class Program
 
         var app = builder.Build();
 
-        app.Services.GetService<IRecurringJobManager>().AddOrUpdate("myrecurringjob",
-             () => Job1.Test(),
-              Cron.Minutely());
+        app.AddJobActivatorScope()
+            .AddJobs();
+
+        //app.Services.GetService<IRecurringJobManager>().AddOrUpdate("myrecurringjob",
+        //     () => Job1.Test(),
+        //      Cron.Minutely());
 
         app.Run();
     }
