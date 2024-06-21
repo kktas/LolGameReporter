@@ -15,7 +15,11 @@ namespace LolGameReporter.Services.Extensions
             services.AddDbContext<LolGameReporterDbContext>(options =>
                 options.UseNpgsql(
                     configuration.GetConnectionString("Connection"),
-                    x => x.MigrationsAssembly("Data")
+                    x =>
+                    {
+                        x.MigrationsAssembly("Data");
+                        x.MigrationsHistoryTable(configuration["Database:MigrationsHistoryTable:Name"], configuration["Database:MigrationsHistoryTable:Schema"]);
+                    }
                 )
             );
 

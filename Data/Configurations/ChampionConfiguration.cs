@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.Configurations
 {
-    public class ChatConfiguration : BaseConfiguration<Chat>
+    public class ChampionConfiguration : BaseConfiguration<Champion>
     {
-        public override void Configure(EntityTypeBuilder<Chat> builder)
+        public override void Configure(EntityTypeBuilder<Champion> builder)
         {
             base.Configure(builder);
 
-            builder.Property(x => x.Name)
+            builder.Property(x => x.ChampionId)
                 .IsRequired();
 
-            builder.Property(x => x.TelegramChatId)
+            builder.Property(x => x.Name)
                 .IsRequired();
         }
     }

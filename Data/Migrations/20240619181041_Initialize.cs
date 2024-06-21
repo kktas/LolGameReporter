@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class Initialize : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,22 @@ namespace Data.Migrations
                 name: "main");
 
             migrationBuilder.CreateTable(
-                name: "t_chat",
+                name: "Champions",
+                schema: "main",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ChampionId = table.Column<int>(type: "integer", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Champions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Chats",
                 schema: "main",
                 columns: table => new
                 {
@@ -36,11 +51,11 @@ namespace Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_t_chat", x => x.Id);
+                    table.PrimaryKey("PK_Chats", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "t_region",
+                name: "Regions",
                 schema: "main",
                 columns: table => new
                 {
@@ -56,11 +71,11 @@ namespace Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_t_region", x => x.Id);
+                    table.PrimaryKey("PK_Regions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "t_server",
+                name: "Servers",
                 schema: "main",
                 columns: table => new
                 {
@@ -77,18 +92,18 @@ namespace Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_t_server", x => x.Id);
+                    table.PrimaryKey("PK_Servers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_t_server_t_region_RegionId",
+                        name: "FK_Servers_Regions_RegionId",
                         column: x => x.RegionId,
                         principalSchema: "main",
-                        principalTable: "t_region",
+                        principalTable: "Regions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "t_account",
+                name: "Accounts",
                 schema: "main",
                 columns: table => new
                 {
@@ -107,18 +122,18 @@ namespace Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_t_account", x => x.Id);
+                    table.PrimaryKey("PK_Accounts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_t_account_t_server_ServerId",
+                        name: "FK_Accounts_Servers_ServerId",
                         column: x => x.ServerId,
                         principalSchema: "main",
-                        principalTable: "t_server",
+                        principalTable: "Servers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "t_account_chat",
+                name: "AccountChat",
                 schema: "main",
                 columns: table => new
                 {
@@ -127,63 +142,63 @@ namespace Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_t_account_chat", x => new { x.AccountId, x.ChatId });
+                    table.PrimaryKey("PK_AccountChat", x => new { x.AccountId, x.ChatId });
                     table.ForeignKey(
-                        name: "FK_t_account_chat_t_account_AccountId",
+                        name: "FK_AccountChat_Accounts_AccountId",
                         column: x => x.AccountId,
                         principalSchema: "main",
-                        principalTable: "t_account",
+                        principalTable: "Accounts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_t_account_chat_t_chat_ChatId",
+                        name: "FK_AccountChat_Chats_ChatId",
                         column: x => x.ChatId,
                         principalSchema: "main",
-                        principalTable: "t_chat",
+                        principalTable: "Chats",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
                 schema: "main",
-                table: "t_region",
+                table: "Regions",
                 columns: new[] { "Id", "CreatedAt", "CreatedById", "CreatedByName", "DeletedAt", "DeletedById", "DeletedByName", "Name" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8365), 0L, "", null, null, null, "Americas" },
-                    { 2, new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8412), 0L, "", null, null, null, "Europe" },
-                    { 3, new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8415), 0L, "", null, null, null, "Asia" }
+                    { 1, new DateTime(2024, 6, 19, 18, 10, 40, 753, DateTimeKind.Utc).AddTicks(4560), 0L, "", null, null, null, "Americas" },
+                    { 2, new DateTime(2024, 6, 19, 18, 10, 40, 753, DateTimeKind.Utc).AddTicks(4595), 0L, "", null, null, null, "Europe" },
+                    { 3, new DateTime(2024, 6, 19, 18, 10, 40, 753, DateTimeKind.Utc).AddTicks(4597), 0L, "", null, null, null, "Asia" }
                 });
 
             migrationBuilder.InsertData(
                 schema: "main",
-                table: "t_server",
+                table: "Servers",
                 columns: new[] { "Id", "CreatedAt", "CreatedById", "CreatedByName", "DeletedAt", "DeletedById", "DeletedByName", "Name", "RegionId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8602), 0L, "", null, null, null, "NA", 1 },
-                    { 2, new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8607), 0L, "", null, null, null, "EUW", 2 },
-                    { 3, new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8610), 0L, "", null, null, null, "EUNE", 2 },
-                    { 4, new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8612), 0L, "", null, null, null, "TR", 2 },
-                    { 5, new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8614), 0L, "", null, null, null, "JP", 3 }
+                    { 1, new DateTime(2024, 6, 19, 18, 10, 40, 753, DateTimeKind.Utc).AddTicks(4721), 0L, "", null, null, null, "NA", 1 },
+                    { 2, new DateTime(2024, 6, 19, 18, 10, 40, 753, DateTimeKind.Utc).AddTicks(4724), 0L, "", null, null, null, "EUW", 2 },
+                    { 3, new DateTime(2024, 6, 19, 18, 10, 40, 753, DateTimeKind.Utc).AddTicks(4726), 0L, "", null, null, null, "EUNE", 2 },
+                    { 4, new DateTime(2024, 6, 19, 18, 10, 40, 753, DateTimeKind.Utc).AddTicks(4727), 0L, "", null, null, null, "TR", 2 },
+                    { 5, new DateTime(2024, 6, 19, 18, 10, 40, 753, DateTimeKind.Utc).AddTicks(4729), 0L, "", null, null, null, "JP", 3 }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_t_account_ServerId",
+                name: "IX_AccountChat_ChatId",
                 schema: "main",
-                table: "t_account",
-                column: "ServerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_t_account_chat_ChatId",
-                schema: "main",
-                table: "t_account_chat",
+                table: "AccountChat",
                 column: "ChatId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_t_server_RegionId",
+                name: "IX_Accounts_ServerId",
                 schema: "main",
-                table: "t_server",
+                table: "Accounts",
+                column: "ServerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Servers_RegionId",
+                schema: "main",
+                table: "Servers",
                 column: "RegionId");
         }
 
@@ -191,23 +206,27 @@ namespace Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "t_account_chat",
+                name: "AccountChat",
                 schema: "main");
 
             migrationBuilder.DropTable(
-                name: "t_account",
+                name: "Champions",
                 schema: "main");
 
             migrationBuilder.DropTable(
-                name: "t_chat",
+                name: "Accounts",
                 schema: "main");
 
             migrationBuilder.DropTable(
-                name: "t_server",
+                name: "Chats",
                 schema: "main");
 
             migrationBuilder.DropTable(
-                name: "t_region",
+                name: "Servers",
+                schema: "main");
+
+            migrationBuilder.DropTable(
+                name: "Regions",
                 schema: "main");
         }
     }

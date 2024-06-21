@@ -23,11 +23,9 @@ namespace Data.Configurations
             builder.HasMany(s => s.Chats)
             .WithMany(c => c.Accounts)
             .UsingEntity<Dictionary<string, object>>(
-                "t_account_chat",
                 j => j.HasOne<Chat>().WithMany().HasForeignKey("ChatId"),
                 j => j.HasOne<Account>().WithMany().HasForeignKey("AccountId"));
 
-            builder.ToTable("t_account", "main");
         }
     }
 }

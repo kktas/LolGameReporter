@@ -16,8 +16,6 @@ namespace Data.Configurations
             builder.HasOne(s => s.Region)
                 .WithMany(r => r.Servers)
                 .HasForeignKey(a => a.RegionId);
-
-            builder.ToTable("t_server", "main");
         }
     }
 }

@@ -12,8 +12,6 @@ namespace Data.Configurations
 
             builder.Property(a => a.Name)
                 .IsRequired();
-
-            builder.ToTable("t_region", "main");
         }
     }
 }

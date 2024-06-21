@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(LolGameReporterDbContext))]
-    [Migration("20240618100635_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240619181041_Initialize")]
+    partial class Initialize
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,21 @@ namespace Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("AccountChat", b =>
+                {
+                    b.Property<int>("AccountId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ChatId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("AccountId", "ChatId");
+
+                    b.HasIndex("ChatId");
+
+                    b.ToTable("AccountChat", "main");
+                });
 
             modelBuilder.Entity("Core.Models.Account", b =>
                 {
@@ -72,7 +87,27 @@ namespace Data.Migrations
 
                     b.HasIndex("ServerId");
 
-                    b.ToTable("t_account", "main");
+                    b.ToTable("Accounts", "main");
+                });
+
+            modelBuilder.Entity("Core.Models.Champion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ChampionId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Champions", "main");
                 });
 
             modelBuilder.Entity("Core.Models.Chat", b =>
@@ -114,7 +149,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("t_chat", "main");
+                    b.ToTable("Chats", "main");
                 });
 
             modelBuilder.Entity("Core.Models.Region", b =>
@@ -150,13 +185,13 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("t_region", "main");
+                    b.ToTable("Regions", "main");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8365),
+                            CreatedAt = new DateTime(2024, 6, 19, 18, 10, 40, 753, DateTimeKind.Utc).AddTicks(4560),
                             CreatedById = 0L,
                             CreatedByName = "",
                             Name = "Americas"
@@ -164,7 +199,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8412),
+                            CreatedAt = new DateTime(2024, 6, 19, 18, 10, 40, 753, DateTimeKind.Utc).AddTicks(4595),
                             CreatedById = 0L,
                             CreatedByName = "",
                             Name = "Europe"
@@ -172,7 +207,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8415),
+                            CreatedAt = new DateTime(2024, 6, 19, 18, 10, 40, 753, DateTimeKind.Utc).AddTicks(4597),
                             CreatedById = 0L,
                             CreatedByName = "",
                             Name = "Asia"
@@ -217,13 +252,13 @@ namespace Data.Migrations
 
                     b.HasIndex("RegionId");
 
-                    b.ToTable("t_server", "main");
+                    b.ToTable("Servers", "main");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8602),
+                            CreatedAt = new DateTime(2024, 6, 19, 18, 10, 40, 753, DateTimeKind.Utc).AddTicks(4721),
                             CreatedById = 0L,
                             CreatedByName = "",
                             Name = "NA",
@@ -232,7 +267,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8607),
+                            CreatedAt = new DateTime(2024, 6, 19, 18, 10, 40, 753, DateTimeKind.Utc).AddTicks(4724),
                             CreatedById = 0L,
                             CreatedByName = "",
                             Name = "EUW",
@@ -241,7 +276,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8610),
+                            CreatedAt = new DateTime(2024, 6, 19, 18, 10, 40, 753, DateTimeKind.Utc).AddTicks(4726),
                             CreatedById = 0L,
                             CreatedByName = "",
                             Name = "EUNE",
@@ -250,7 +285,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8612),
+                            CreatedAt = new DateTime(2024, 6, 19, 18, 10, 40, 753, DateTimeKind.Utc).AddTicks(4727),
                             CreatedById = 0L,
                             CreatedByName = "",
                             Name = "TR",
@@ -259,7 +294,7 @@ namespace Data.Migrations
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2024, 6, 18, 10, 6, 33, 175, DateTimeKind.Utc).AddTicks(8614),
+                            CreatedAt = new DateTime(2024, 6, 19, 18, 10, 40, 753, DateTimeKind.Utc).AddTicks(4729),
                             CreatedById = 0L,
                             CreatedByName = "",
                             Name = "JP",
@@ -267,19 +302,19 @@ namespace Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("t_account_chat", b =>
+            modelBuilder.Entity("AccountChat", b =>
                 {
-                    b.Property<int>("AccountId")
-                        .HasColumnType("integer");
+                    b.HasOne("Core.Models.Account", null)
+                        .WithMany()
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<int>("ChatId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("AccountId", "ChatId");
-
-                    b.HasIndex("ChatId");
-
-                    b.ToTable("t_account_chat", "main");
+                    b.HasOne("Core.Models.Chat", null)
+                        .WithMany()
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Core.Models.Account", b =>
@@ -302,21 +337,6 @@ namespace Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Region");
-                });
-
-            modelBuilder.Entity("t_account_chat", b =>
-                {
-                    b.HasOne("Core.Models.Account", null)
-                        .WithMany()
-                        .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Core.Models.Chat", null)
-                        .WithMany()
-                        .HasForeignKey("ChatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Core.Models.Region", b =>
