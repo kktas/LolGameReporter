@@ -26,10 +26,10 @@ namespace Data.Repositories
             return chat;
         }
 
-        public async Task<Chat> GetActiveChatByTelegramChatIdAsync(long telegramChatId)
+        public async Task<Chat> GetChatByTelegramChatIdAsync(long telegramChatId)
         {
             string key = $"{TelegramChatKeyPrefix}:{telegramChatId}";
-            async Task<Chat> getActiveChat() => await Context.Set<Chat>().SingleOrDefaultAsync(c => c.TelegramChatId == telegramChatId && c.DeletedAt == null);
+            async Task<Chat> getActiveChat() => await Context.Set<Chat>().SingleOrDefaultAsync(c => c.TelegramChatId == telegramChatId);
             var cacheOptions = new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(60) };
 
             return await Cache.GetOrSetAsync(key, getActiveChat, cacheOptions);

@@ -28,6 +28,12 @@ namespace Data.Configurations
                 builder.Property("CreatedBy")
                     .IsRequired();
             }
+
+
+            if (builder.Metadata.FindProperty("DeletedAt") != null)
+            {
+                builder.HasQueryFilter(x => EF.Property<DateTime?>(x, "DeletedAt") == null);
+            }
         }
     }
 }
