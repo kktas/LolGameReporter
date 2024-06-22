@@ -14,25 +14,24 @@ namespace LolGameReporter.Services.Extensions
     {
         public static IServiceCollection AddHangfireService(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddHangfire(_configuration => _configuration
-            //               .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
-            //               .UseSimpleAssemblyNameTypeSerializer()
-            //               .UseRecommendedSerializerSettings()
-            //               .UsePostgreSqlStorage(options =>
-            //                   options.UseNpgsqlConnection(configuration.GetConnectionString("Connection"))
-            //               )
-            //           );
-
+            services.AddHangfire(_configuration => _configuration
+                           .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+                           .UseSimpleAssemblyNameTypeSerializer()
+                           .UseRecommendedSerializerSettings()
+                           .UsePostgreSqlStorage(options =>
+                               options.UseNpgsqlConnection(configuration.GetConnectionString("Connection"))
+                           )
+                       );
 
             //// Add the processing server as IHostedService
-            //services.AddHangfireServer();
+            services.AddHangfireServer();
             return services;
         }
 
         public static IServiceCollection AddJobServices(this IServiceCollection services)
         {
 
-            //services.AddScoped<CheckCurrentMatchesJob>();
+            services.AddScoped<CheckCurrentMatchesJob>();
             return services;
         }
     }
@@ -42,7 +41,7 @@ namespace LolGameReporter.Services.Extensions
         public static IHost AddJobActivatorScope(this IHost host)
         {
 
-            //GlobalConfiguration.Configuration.UseActivator(new HangfireActivator(host.Services.GetService<IServiceScopeFactory>()));
+            GlobalConfiguration.Configuration.UseActivator(new HangfireActivator(host.Services.GetService<IServiceScopeFactory>()));
 
             // Add the processing server as IHostedService
             return host;
@@ -50,13 +49,13 @@ namespace LolGameReporter.Services.Extensions
 
         public static IHost AddJobs(this IHost host)
         {
-            //host.Services.GetService<IRecurringJobManager>()
-            //    .AddOrUpdate<CheckCurrentMatchesJob>
-            //    (
-            //        "checkcurrentmatchesjob",
-            //        (a) => a.ExecuteAsync(),
-            //        Cron.Minutely()
-            //    );
+            host.Services.GetService<IRecurringJobManager>()
+                .AddOrUpdate<CheckCurrentMatchesJob>
+                (
+                    "checkcurrentmatchesjob",
+                    (a) => a.ExecuteAsync(),
+                    Cron.Minutely()
+                );
 
 
 

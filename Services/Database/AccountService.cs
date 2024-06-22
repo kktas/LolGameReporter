@@ -62,12 +62,25 @@ namespace Services.Database
         public async Task<IEnumerable<Account>> GetAllAccountsByChatId(int chatId)
         {
             return await _unitOfWork.AccountRepository.FindAsync(a => a.Chats.Any(c => c.Id == chatId));
-            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<Account>> GetAllAccountsByTelegramChatId(long telegramChatId)
         {
             return await _unitOfWork.AccountRepository.FindAsync(a => a.Chats.Any(c => c.TelegramChatId == telegramChatId));
+        }
+        public async Task<IEnumerable<Account>> GetAllAccountsWithServerWithChats()
+        {
+            return await _unitOfWork.AccountRepository.GetAllAccountsWithServerWithChatsAsync();
+        }
+
+        public async Task<Account> ChangeAccountGameNameTagLine(Account account, string gameName, string tagLine)
+        {
+            account.GameName = gameName;
+            account.TagLine = tagLine;
+
+            await _unitOfWork.CommitAsync();
+
+            return account;
         }
     }
 }

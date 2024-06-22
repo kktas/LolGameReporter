@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Services.Jobs.ScopeActivator
 {
-    public class AppJobActivatorScope([NotNull] IServiceScope serviceScope) : Hangfire.JobActivatorScope
+    public class AppJobActivatorScope(IServiceScope serviceScope) : Hangfire.JobActivatorScope
     {
         private readonly IServiceScope _serviceScope = serviceScope ?? throw new ArgumentNullException(nameof(serviceScope));
 

@@ -29,7 +29,6 @@ namespace Services.ThirdPartyAPIs.TelegramBot.Events
             {
                 Name = messageChat.Title ?? string.Empty,
                 TelegramChatId = messageChat.Id,
-                IsVerified = true,
                 CreatedAt = DateTime.UtcNow,
                 CreatedById = from?.Id ?? 0,
                 CreatedByName = StringUtilities.GetFullName(from?.FirstName, from?.LastName) ?? string.Empty

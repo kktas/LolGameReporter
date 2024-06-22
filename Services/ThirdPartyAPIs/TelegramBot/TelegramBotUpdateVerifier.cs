@@ -8,7 +8,6 @@ namespace Services.ThirdPartyAPIs.TelegramBot
         public async Task Verify(long telegramChatId)
         {
             var chat = await chatService.GetChatByTelegramChatId(telegramChatId) ?? throw new Exception("chat doesn't exist");
-            var a = 2;
         }
     }
 }

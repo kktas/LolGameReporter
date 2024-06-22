@@ -21,5 +21,12 @@ namespace Data.Repositories
                 );
         }
 
+        public async Task<List<Account>> GetAllAccountsWithServerWithChatsAsync()
+        {
+            return await Context.Set<Account>()
+                .Include(a => a.Server)
+                .Include(a => a.Chats)
+                .ToListAsync();
+        }
     }
 }

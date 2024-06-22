@@ -8,6 +8,7 @@ namespace Core
         IAccountRepository AccountRepository { get; }
         IRegionRepository RegionRepository { get; }
         IServerRepository ServerRepository { get; }
+        IChampionRepository ChampionRepository { get; }
         Task<int> CommitAsync();
     }
 }

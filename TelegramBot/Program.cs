@@ -35,10 +35,6 @@ internal class Program
         app.AddJobActivatorScope()
             .AddJobs();
 
-        //app.Services.GetService<IRecurringJobManager>().AddOrUpdate("myrecurringjob",
-        //     () => Job1.Test(),
-        //      Cron.Minutely());
-
         app.Run();
     }
 }

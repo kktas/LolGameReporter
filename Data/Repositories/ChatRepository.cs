@@ -37,7 +37,7 @@ namespace Data.Repositories
 
         public async Task<Chat> GetByIdWithAccountsAsync(int chatId)
         {
-            return await Context.Set<Chat>().Include(c => c.Accounts).SingleOrDefaultAsync();
+            return await Context.Set<Chat>().Include(c => c.Accounts).SingleOrDefaultAsync(c => c.Id == chatId);
         }
 
         public override async void DeleteAsync(Chat entity, long deletedById, string deletedByName)

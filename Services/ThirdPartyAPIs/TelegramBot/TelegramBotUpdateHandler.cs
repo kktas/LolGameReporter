@@ -50,7 +50,6 @@ namespace Services.ThirdPartyAPIs.TelegramBot
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
                 logger.LogError("There is no active chat with telegram chat id: {chatId}", chatId);
                 return;
 

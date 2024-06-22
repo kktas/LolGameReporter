@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TelegramBot", "TelegramBot\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{83BDBDC5-00D3-4C6C-B585-1EC226170D67}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3ED895F4-6069-4A85-B389-E057D7425192}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +44,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A80C19C4-F0EB-405E-A5E7-27FAFC34B5F9} = {3ED895F4-6069-4A85-B389-E057D7425192}
+		{BE3BAE85-7D45-4204-B344-53FD84180A82} = {3ED895F4-6069-4A85-B389-E057D7425192}
+		{4398649E-B39B-433D-BAF2-05F5F225EFF7} = {3ED895F4-6069-4A85-B389-E057D7425192}
+		{064435F9-0098-404B-A84F-F75DC577A738} = {3ED895F4-6069-4A85-B389-E057D7425192}
+		{83BDBDC5-00D3-4C6C-B585-1EC226170D67} = {3ED895F4-6069-4A85-B389-E057D7425192}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {25B5AA25-6A9A-4D12-AF2E-8DC94BB96AEF}

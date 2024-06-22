@@ -36,6 +36,7 @@ namespace LolGameReporter.Services.Extensions
             services.AddTransient<IChatService, ChatService>();
             services.AddTransient<IRegionService, RegionService>();
             services.AddTransient<IServerService, ServerService>();
+            services.AddTransient<IChampionService, ChampionService>();
 
             return services;
         }

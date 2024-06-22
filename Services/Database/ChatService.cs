@@ -32,7 +32,7 @@ namespace Services.Database
 
         public async Task DeleteChatByTelegramChatId(long telegramChatId, long deletedById, string deletedByName)
         {
-            var chat = await _unitOfWork.ChatRepository.GetActiveChatByTelegramChatIdAsync(telegramChatId);
+            var chat = await _unitOfWork.ChatRepository.GetChatByTelegramChatIdAsync(telegramChatId);
             if (chat is null) return;
 
             _unitOfWork.ChatRepository.DeleteAsync(chat, deletedById, deletedByName);
@@ -47,7 +47,7 @@ namespace Services.Database
 
         public async Task<Chat> GetChatByTelegramChatId(long telegramChatId)
         {
-            return await _unitOfWork.ChatRepository.GetActiveChatByTelegramChatIdAsync(telegramChatId);
+            return await _unitOfWork.ChatRepository.GetChatByTelegramChatIdAsync(telegramChatId);
         }
 
         public async Task<Chat> UpdateChatName(int id, string newChatName)
@@ -62,7 +62,7 @@ namespace Services.Database
 
         public async Task<Chat> UpdateChatName(long telegramChatId, string newChatName)
         {
-            var chat = await _unitOfWork.ChatRepository.GetActiveChatByTelegramChatIdAsync(telegramChatId);
+            var chat = await _unitOfWork.ChatRepository.GetChatByTelegramChatIdAsync(telegramChatId);
             chat.Name = newChatName;
 
             await _unitOfWork.CommitAsync();

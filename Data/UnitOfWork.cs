@@ -14,6 +14,7 @@ namespace Data
         private readonly ChatRepository _chatRepository;
         private readonly RegionRepository _regionRepository;
         private readonly ServerRepository _serverRepository;
+        private readonly ChampionRepository _championRepository;
 
         public UnitOfWork(LolGameReporterDbContext context, IRedisCacheService cache)
         {
@@ -23,6 +24,7 @@ namespace Data
             _chatRepository = _chatRepository ??= new ChatRepository(_context, cache);
             _regionRepository = _regionRepository ??= new RegionRepository(_context, cache);
             _serverRepository = _serverRepository ??= new ServerRepository(_context, cache);
+            _championRepository = _championRepository ??= new ChampionRepository(_context, cache);
         }
 
         public IChatRepository ChatRepository => _chatRepository;
@@ -30,6 +32,7 @@ namespace Data
         public IAccountRepository AccountRepository => _accountRepository;
         public IRegionRepository RegionRepository => _regionRepository;
         public IServerRepository ServerRepository => _serverRepository;
+        public IChampionRepository ChampionRepository => _championRepository;
 
         public Task<int> CommitAsync()
         {

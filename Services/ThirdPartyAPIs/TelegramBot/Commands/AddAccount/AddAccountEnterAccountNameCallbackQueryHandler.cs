@@ -5,15 +5,13 @@ using Core.Services.ThirdPartyAPIs.Riot;
 using Core.Services.ThirdPartyAPIs.TelegramBot;
 using Core.Services.ThirdPartyAPIs.TelegramBot.Commands;
 using Refit;
-using Services.Database;
-using Services.ThirdPartyAPIs.Riot.Region;
 using System.Net;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
 namespace Services.ThirdPartyAPIs.TelegramBot.Commands.AddAccount
 {
-    public class AddAccountEnterAccountNameCallbackQueryHandler(ITelegramBotClientService botClientService, IAccountService accountService, IChatService chatService, IAmericasAPI americasAPI) : ICommandHandler
+    public class AddAccountEnterAccountNameCallbackQueryHandler(ITelegramBotClientService botClientService, IAccountService accountService, IChatService chatService, IRiotApiFactory riotApiFactory) : ICommandHandler
     {
         public async Task HandleCommandAsync(Update update, CancellationToken cts, CommandData? commandData)
         {
@@ -43,7 +41,9 @@ namespace Services.ThirdPartyAPIs.TelegramBot.Commands.AddAccount
 
             try
             {
-                user = await americasAPI.GetPuuidByRiotName(textParts[0], textParts[1]);
+                // always use americas because it's the fastest and most reliable
+                var americasClient = riotApiFactory.CreateRegionClient("Americas");
+                user = await americasClient.GetPuuidByRiotName(textParts[0], textParts[1]);
             }
             catch (ApiException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
             {
