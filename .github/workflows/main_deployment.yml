@@ -53,16 +53,16 @@ jobs:
         - name: Build Docker image
           working-directory: ./src
           run: |
-            docker build -t ${{ secrets.ECR_REPOSITORY_NAME }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NAME }}:${{ github.sha }} -f ./TelegramBot/Dockerfile . 
+            docker build -t  ${{ steps.login-ecr.outputs.registry}}/${{ secrets.ECR_REPOSITORY_NAME }}:${{ github.sha }} -f ./TelegramBot/Dockerfile . 
 
         - name: Push Docker image to Amazon ECR
           run: |
-            docker push ${{ secrets.ECR_REPOSITORY_NAME }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NAME }}:${{ github.sha }}
+            docker push  ${{ steps.login-ecr.outputs.registry}}/${{ secrets.ECR_REPOSITORY_NAME }}:${{ github.sha }}
 
         - name: Deploy to EC2
           env: 
             AWS_REGION: ${{ secrets.AWS_REGION }}
-            ECR_REPOSITORY_URI: ${{ secrets.ECR_REPOSITORY_NAME }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NAME }}
+            ECR_REPOSITORY_URI: ${{ steps.login-ecr.outputs.registry}}/${{ secrets.ECR_REPOSITORY_NAME }}
             GITHUB_SHA: ${{ github.sha }}
           run: |
             echo "${{ secrets.EC2_SSH_KEY }}" > ec2_key.pem |
