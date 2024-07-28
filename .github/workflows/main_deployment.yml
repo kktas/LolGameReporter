@@ -70,5 +70,5 @@ jobs:
                 docker ps -a --filter \"ancestor=$ECR_REPOSITORY_URI\" --format \"{{.ID}}\" | xargs -r docker stop | xargs -r docker rm &&
                 aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPOSITORY_URI &&
                 docker pull $ECR_REPOSITORY_URI:$GITHUB_SHA &&
-                docker run --add-host=host.docker.internal:host-gateway $ECR_REPOSITORY_URI:$GITHUB_SHA
+                docker run -d --add-host=host.docker.internal:host-gateway $ECR_REPOSITORY_URI:$GITHUB_SHA
             "
