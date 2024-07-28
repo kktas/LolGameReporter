@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3ED895F4-6069-4A85-B389-E057D7425192}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github", "github", "{6E948940-7DDC-4C51-AB5B-7434712D0C19}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{6E948940-7DDC-4C51-AB5B-7434712D0C19}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{67FFE57A-D810-462B-887A-E45DB0BBC7F7}"
 	ProjectSection(SolutionItems) = preProject
