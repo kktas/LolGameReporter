@@ -67,7 +67,7 @@ jobs:
           run: |
             echo "${{ secrets.EC2_SSH_KEY }}" > private_key && chmod 600 private_key
             ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "
-                docker ps -a --filter \"ancestor=$ECR_REPOSITORY_URI\" --format \"{{.ID}}\" | xargs -r docker stop | xargs -r docker rm &&
+                docker rm -f $(docker ps -a --filter "ancestor=$ECR_REPOSITORY_URI" -q) || true &&
                 aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPOSITORY_URI &&
                 docker pull $ECR_REPOSITORY_URI:$GITHUB_SHA &&
                 docker run -d --add-host=host.docker.internal:host-gateway $ECR_REPOSITORY_URI:$GITHUB_SHA
