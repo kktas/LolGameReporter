@@ -12,20 +12,14 @@ jobs:
         steps:
         - name: Checkout code
           uses: actions/checkout@v3
-
-        - name: Go to TelegramBot project folder and second debugger
-          run: |
-            cd src/TelegramBot/ && ls -a
-        
-        - name: debugger
-          run: |
-            ls -a
         
         - name: Copy appsettings.example.json into appsettings.json
+          working-directory: ./src/TelegramBot
           run: |
             cp appsettings.example.json appsettings.json 
 
         - name: Set appsettings.json secrets and variables
+          working-directory: ./src/TelegramBot
           run: |
             sed -i 's/<DATABASE_CONNECTION_STRING>/${{ secrets.DATABASE_CONNECTION_STRING }}/g' appsettings.json  |
             sed -i 's/<HANGFIRE_CONNECTION_STRING>/${{ secrets.HANGFIRE_CONNECTION_STRING }}/g' appsettings.json  |
@@ -57,8 +51,9 @@ jobs:
           uses: aws-actions/amazon-ecr-login@v1
 
         - name: Build Docker image
+          working-directory: ./src
           run: |
-            docker build -t lol-game-reporter -f ./src/TelegramBot/Dockerfile ./src |
+            docker build -t lol-game-reporter -f ./TelegramBot/Dockerfile . |
             docker tag lol-game-reporter:latest ${{ secrets.ECR_REPOSITORY_NAME }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NAME }}:${{ github.sha }}
 
         - name: Push Docker image to Amazon ECR
