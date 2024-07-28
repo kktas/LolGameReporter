@@ -19,7 +19,7 @@ namespace LolGameReporter.Services.Extensions
                            .UseSimpleAssemblyNameTypeSerializer()
                            .UseRecommendedSerializerSettings()
                            .UsePostgreSqlStorage(options =>
-                               options.UseNpgsqlConnection(configuration.GetConnectionString("Connection"))
+                               options.UseNpgsqlConnection(configuration.GetConnectionString("HangfireConnection"))
                            )
                        );
 
