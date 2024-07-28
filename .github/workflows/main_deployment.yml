@@ -21,22 +21,22 @@ jobs:
         - name: Set appsettings.json secrets and variables
           working-directory: ./src/TelegramBot
           run: |
-            sed -i 's#<DATABASE_CONNECTION_STRING>#${{ secrets.DATABASE_CONNECTION_STRING }}#g' appsettings.json  &&
-            sed -i 's#<HANGFIRE_CONNECTION_STRING>#${{ secrets.HANGFIRE_CONNECTION_STRING }}#g' appsettings.json  &&
-            sed -i 's#<REDIS_CONNECTION_ADDRESS>#${{ secrets.REDIS_CONNECTION_ADDRESS }}#g' appsettings.json  &&
-            sed -i 's#<TELEGRAM_BOT_API_KEY>#${{ secrets.TELEGRAM_BOT_API_KEY }}#g' appsettings.json  &&
-            sed -i 's#<X_RIOT_TOKEN>#${{ secrets.X_RIOT_TOKEN }}#g' appsettings.json  &&
-            sed -i 's#<LOG_LEVEL_DEFAULT>#${{ vars.LOG_LEVEL_DEFAULT }}#g' appsettings.json  &&
-            sed -i 's#<LOG_LEVEL_HANGFIRE>#${{ vars.LOG_LEVEL_HANGFIRE }}#g' appsettings.json  &&
-            sed -i 's#<MIGRATIONS_SCHEMA_NAME>#${{ vars.MIGRATIONS_SCHEMA_NAME }}#g' appsettings.json  &&
-            sed -i 's#<MIGRATIONS_TABLE_NAME>#${{ vars.MIGRATIONS_TABLE_NAME }}#g' appsettings.json  &&
-            sed -i 's#<AMERICAS_BASE_URI>#${{ vars.AMERICAS_BASE_URI }}#g' appsettings.json  &&
-            sed -i 's#<EUROPE_BASE_URI>#${{ vars.EUROPE_BASE_URI }}#g' appsettings.json  &&
-            sed -i 's#<ASIA_BASE_URI>#${{ vars.ASIA_BASE_URI }}#g' appsettings.json  &&
-            sed -i 's#<NA_BASE_URI>/${{ vars.NA_BASE_URI }}#g' appsettings.json  &&
-            sed -i 's#<EUW_BASE_URI>#${{ vars.EUW_BASE_URI }}#g' appsettings.json  &&
-            sed -i 's#<EUNE_BASE_URI>#${{ vars.EUNE_BASE_URI }}#g' appsettings.json  &&
-            sed -i 's#<TR_BASE_URI>#${{ vars.TR_BASE_URI }}#g' appsettings.json  &&
+            sed -i 's#<DATABASE_CONNECTION_STRING>#${{ secrets.DATABASE_CONNECTION_STRING }}#g' appsettings.json  |
+            sed -i 's#<HANGFIRE_CONNECTION_STRING>#${{ secrets.HANGFIRE_CONNECTION_STRING }}#g' appsettings.json  |
+            sed -i 's#<REDIS_CONNECTION_ADDRESS>#${{ secrets.REDIS_CONNECTION_ADDRESS }}#g' appsettings.json  |
+            sed -i 's#<TELEGRAM_BOT_API_KEY>#${{ secrets.TELEGRAM_BOT_API_KEY }}#g' appsettings.json  |
+            sed -i 's#<X_RIOT_TOKEN>#${{ secrets.X_RIOT_TOKEN }}#g' appsettings.json  |
+            sed -i 's#<LOG_LEVEL_DEFAULT>#${{ vars.LOG_LEVEL_DEFAULT }}#g' appsettings.json  |
+            sed -i 's#<LOG_LEVEL_HANGFIRE>#${{ vars.LOG_LEVEL_HANGFIRE }}#g' appsettings.json  |
+            sed -i 's#<MIGRATIONS_SCHEMA_NAME>#${{ vars.MIGRATIONS_SCHEMA_NAME }}#g' appsettings.json  |
+            sed -i 's#<MIGRATIONS_TABLE_NAME>#${{ vars.MIGRATIONS_TABLE_NAME }}#g' appsettings.json  |
+            sed -i 's#<AMERICAS_BASE_URI>#${{ vars.AMERICAS_BASE_URI }}#g' appsettings.json  |
+            sed -i 's#<EUROPE_BASE_URI>#${{ vars.EUROPE_BASE_URI }}#g' appsettings.json  |
+            sed -i 's#<ASIA_BASE_URI>#${{ vars.ASIA_BASE_URI }}#g' appsettings.json  |
+            sed -i 's#<NA_BASE_URI>/${{ vars.NA_BASE_URI }}#g' appsettings.json  |
+            sed -i 's#<EUW_BASE_URI>#${{ vars.EUW_BASE_URI }}#g' appsettings.json  |
+            sed -i 's#<EUNE_BASE_URI>#${{ vars.EUNE_BASE_URI }}#g' appsettings.json  |
+            sed -i 's#<TR_BASE_URI>#${{ vars.TR_BASE_URI }}#g' appsettings.json  |
             sed -i 's#<JP_BASE_URI>#${{ vars.JP_BASE_URI }}#g' appsettings.json  
 
         - name: Configure AWS Credentials
