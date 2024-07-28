@@ -80,10 +80,8 @@ jobs:
             REMOTE_HOST: ${{ secrets.EC2_HOST }}
             REMOTE_USER: ${{ secrets.EC2_USER }}
             SCRIPT_AFTER: |
-              docker container stop $(docker ps --filter ancestor=$ECR_REPOSITORY_URI -q) && docker container rm $(docker ps --filter ancestor=$ECR_REPOSITORY_URI -q)
-  
-              aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPOSITORY_URI
-
-              docker pull $ECR_REPOSITORY_URI:$GITHUB_SHA
-          
+              docker container stop $(docker ps --filter ancestor=$ECR_REPOSITORY_URI -q) |
+              docker container rm $(docker ps --filter ancestor=$ECR_REPOSITORY_URI -q) |
+              aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPOSITORY_URI |
+              docker pull $ECR_REPOSITORY_URI:$GITHUB_SHA |
               docker run --add-host=host.docker.internal:host-gateway $ECR_REPOSITORY_URI:$GITHUB_SHA                    
