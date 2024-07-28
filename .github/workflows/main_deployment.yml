@@ -16,7 +16,11 @@ jobs:
         - name: Go to TelegramBot project folder
           run: |
             cd src/TelegramBot/
-
+        
+        - name: debugger
+          run: |
+            ls -a
+        
         - name: Copy appsettings.example.json into appsettings.json
           run: |
             cp appsettings.example.json appsettings.json 
