@@ -54,7 +54,7 @@ jobs:
 
         - name: Build Docker image
           run: |
-            docker build -t lol-game-reporter -f ./src/TelegramBot/Dockerfile . |
+            docker build -t lol-game-reporter -f ./src/TelegramBot/Dockerfile ./src |
             docker tag lol-game-reporter:latest ${{ secrets.ECR_REPOSITORY_NAME }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY_NAME }}:${{ github.sha }}
 
         - name: Push Docker image to Amazon ECR
