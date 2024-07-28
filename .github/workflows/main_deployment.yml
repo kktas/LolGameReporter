@@ -37,7 +37,7 @@ jobs:
             sed -i 's/<EUW_BASE_URI>/${{ vars.EUW_BASE_URI }}/g' appsettings.json  |
             sed -i 's/<EUNE_BASE_URI>/${{ vars.EUNE_BASE_URI }}/g' appsettings.json  |
             sed -i 's/<TR_BASE_URI>/${{ vars.TR_BASE_URI }}/g' appsettings.json  |
-            sed -i 's/<JP_BASE_URI>/${{ vars.JP_BASE_URI }}/g' appsettings.json  |
+            sed -i 's/<JP_BASE_URI>/${{ vars.JP_BASE_URI }}/g' appsettings.json  
 
         - name: Configure AWS Credentials
           uses: aws-actions/configure-aws-credentials@v2
