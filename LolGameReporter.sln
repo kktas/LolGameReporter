@@ -15,6 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3ED895F4-6069-4A85-B389-E057D7425192}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github", "github", "{6E948940-7DDC-4C51-AB5B-7434712D0C19}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{67FFE57A-D810-462B-887A-E45DB0BBC7F7}"
+	ProjectSection(SolutionItems) = preProject
+		main_deployment.yml = main_deployment.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +58,7 @@ Global
 		{4398649E-B39B-433D-BAF2-05F5F225EFF7} = {3ED895F4-6069-4A85-B389-E057D7425192}
 		{064435F9-0098-404B-A84F-F75DC577A738} = {3ED895F4-6069-4A85-B389-E057D7425192}
 		{83BDBDC5-00D3-4C6C-B585-1EC226170D67} = {3ED895F4-6069-4A85-B389-E057D7425192}
+		{67FFE57A-D810-462B-887A-E45DB0BBC7F7} = {6E948940-7DDC-4C51-AB5B-7434712D0C19}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {25B5AA25-6A9A-4D12-AF2E-8DC94BB96AEF}
