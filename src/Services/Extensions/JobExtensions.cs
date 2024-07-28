@@ -57,8 +57,6 @@ namespace LolGameReporter.Services.Extensions
                     Cron.Minutely()
                 );
 
-
-
             return host;
         }
     }
