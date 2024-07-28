@@ -59,28 +59,16 @@ jobs:
           run: |
             docker push  ${{ steps.login-ecr.outputs.registry}}/${{ secrets.ECR_REPOSITORY_NAME }}:${{ github.sha }}
 
-        # - name: Deploy to EC2
-        #   env: 
-        #     AWS_REGION: ${{ secrets.AWS_REGION }}
-        #     ECR_REPOSITORY_URI: ${{ steps.login-ecr.outputs.registry}}/${{ secrets.ECR_REPOSITORY_NAME }}
-        #     GITHUB_SHA: ${{ github.sha }}
-        #   run: |
-        #     echo "${{ secrets.EC2_SSH_KEY }}" > ec2_key.pem |
-        #     chmod 600 ec2_key.pem |
-        #     ssh -i ec2_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} 
-
-        - name: Deploy over SSH
-          uses: easingthemes/ssh-deploy@v5.0.0
+        - name: Deploy to EC2
           env: 
             AWS_REGION: ${{ secrets.AWS_REGION }}
             ECR_REPOSITORY_URI: ${{ steps.login-ecr.outputs.registry}}/${{ secrets.ECR_REPOSITORY_NAME }}
             GITHUB_SHA: ${{ github.sha }}
-          with:
-            SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-            REMOTE_HOST: ${{ secrets.EC2_HOST }}
-            REMOTE_USER: ${{ secrets.EC2_USER }}
-            SCRIPT_AFTER: |
+          run: |
+            echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+            ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} '
               docker ps -a --filter "ancestor=$ECR_REPOSITORY_URI" --format "{{.ID}}" | xargs -r docker stop | xargs -r docker rm &&
               aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REPOSITORY_URI &&
               docker pull $ECR_REPOSITORY_URI:$GITHUB_SHA &&
               docker run --add-host=host.docker.internal:host-gateway $ECR_REPOSITORY_URI:$GITHUB_SHA                    
+             '
