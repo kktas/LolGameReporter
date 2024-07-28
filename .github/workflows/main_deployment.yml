@@ -33,11 +33,11 @@ jobs:
             sed -i 's#<AMERICAS_BASE_URI>#${{ vars.AMERICAS_BASE_URI }}#g' appsettings.json  |
             sed -i 's#<EUROPE_BASE_URI>#${{ vars.EUROPE_BASE_URI }}#g' appsettings.json  |
             sed -i 's#<ASIA_BASE_URI>#${{ vars.ASIA_BASE_URI }}#g' appsettings.json  |
-            sed -i 's#<NA_BASE_URI>#${{ vars.NA_BASE_URI }}#g' appsettings.json  |
-            sed -i 's#<EUW_BASE_URI>#${{ vars.EUW_BASE_URI }}#g' appsettings.json  |a
-            sed -i 's#<EUNE_BASE_URI>#${{ vars.EUNE_BASE_URI }}#g' appsettings.json  |
-            sed -i 's#<TR_BASE_URI>#${{ vars.TR_BASE_URI }}#g' appsettings.json  |
-            sed -i 's#<JP_BASE_URI>#${{ vars.JP_BASE_URI }}#g' appsettings.json  |
+            sed -i 's#<NA_BASE_URI>/${{ vars.NA_BASE_URI }}/g' appsettings.json  |
+            sed -i 's/<EUW_BASE_URI>/${{ vars.EUW_BASE_URI }}/g' appsettings.json  |
+            sed -i 's/<EUNE_BASE_URI>/${{ vars.EUNE_BASE_URI }}/g' appsettings.json  |
+            sed -i 's/<TR_BASE_URI>/${{ vars.TR_BASE_URI }}/g' appsettings.json  |
+            sed -i 's/<JP_BASE_URI>/${{ vars.JP_BASE_URI }}/g' appsettings.json  |
 
         - name: Configure AWS Credentials
           uses: aws-actions/configure-aws-credentials@v2
