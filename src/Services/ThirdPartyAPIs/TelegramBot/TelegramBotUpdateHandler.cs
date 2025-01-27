@@ -1,11 +1,8 @@
-﻿using Core.Services;
-using Core.Services.Cache;
+﻿using Core.Services.Cache;
 using Core.Services.ThirdPartyAPIs.TelegramBot;
 using Core.Services.ThirdPartyAPIs.TelegramBot.Commands;
 using Core.Services.ThirdPartyAPIs.TelegramBot.Events;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
-using System.Data;
 using System.Text.RegularExpressions;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -57,6 +54,8 @@ namespace Services.ThirdPartyAPIs.TelegramBot
 
             var activeCommand = await cacheService.GetAsync<CommandData>($"command:user:{from.Id}");
             await cacheService.RemoveAsync($"command:user:{from.Id}");
+            var commandEntity = message.Entities?.FirstOrDefault(e => e.Type == MessageEntityType.BotCommand);
+            string commandText = string.Empty;
 
             // Handle Callback Queries
             if (update.CallbackQuery is not null)
@@ -67,51 +66,37 @@ namespace Services.ThirdPartyAPIs.TelegramBot
                 var parts = data.Split("/");
                 if (parts.Length != 2) return;
 
-                var commandText = parts[0];
-
-                TelegramCommandType[] commandTypes = (TelegramCommandType[])Enum.GetValues(typeof(TelegramCommandType));
-                TelegramCommandType commandType = commandTypes.FirstOrDefault(ct => ct.ToString().ToLower().Equals(commandText.ToLower()));
-
-                ICommandHandler commandHandler = commandHandlerFactory.GetCommandHandler(commandType);
-                await commandHandler.HandleCommandAsync(update, cancellationToken, activeCommand);
-
-                return;
+                commandText = parts[0];
             }
-
             // handle commands
-            var commandEntity = message.Entities?.FirstOrDefault(e => e.Type == MessageEntityType.BotCommand);
-
-            if (commandEntity is not null && message.Text is not null)
+            else if (commandEntity is not null && message.Text is not null)
             {
                 //// Get Command
                 string pattern = @"^/([^@\s]+)";
                 Match match = Regex.Match(message.Text, pattern);
-                var commandText = match.Groups[1] is not null ? match.Groups[1].ToString() : string.Empty;
-
-                TelegramCommandType[] commandTypes = (TelegramCommandType[])Enum.GetValues(typeof(TelegramCommandType));
-
-                TelegramCommandType commandType = commandTypes.FirstOrDefault(ct => ct.ToString().ToLower().Equals(commandText.ToLower()));
-
-                // Handle Command
-                ICommandHandler commandHandler = commandHandlerFactory.GetCommandHandler(commandType);
-                await commandHandler.HandleCommandAsync(update, cancellationToken);
-
-                return;
+                commandText = match.Groups[1] is not null ? match.Groups[1].ToString() : string.Empty;
             }
-
             // handle text messages in case they are replies to commands
-            if (message.Text is not null)
+            else if (message.Text is not null)
             {
                 if (activeCommand is null) return;
 
-                TelegramCommandType[] commandTypes = (TelegramCommandType[])Enum.GetValues(typeof(TelegramCommandType));
-                TelegramCommandType commandType = commandTypes.FirstOrDefault(ct => ct.ToString().ToLower().Equals(activeCommand.Name));
-
-                ICommandHandler commandHandler = commandHandlerFactory.GetCommandHandler(commandType);
-                await commandHandler.HandleCommandAsync(update, cancellationToken, activeCommand);
-
-                return;
+               commandText = activeCommand.Name;
             }
+
+            if (!String.IsNullOrEmpty(commandText))
+            {
+                await HandleTelegramCommandUpdateAsync(update,  commandText, cancellationToken, activeCommand);
+            }
+        }
+
+        private async Task HandleTelegramCommandUpdateAsync(Update update,  string commandName,  CancellationToken cancellationToken, CommandData? commandData = null)
+        {
+            TelegramCommandType[] commandTypes = (TelegramCommandType[])Enum.GetValues(typeof(TelegramCommandType));
+            TelegramCommandType commandType = commandTypes.FirstOrDefault(ct => ct.ToString().ToLower().Equals(commandName));
+
+            ICommandHandler commandHandler = commandHandlerFactory.GetCommandHandler(commandType);
+            await commandHandler.HandleCommandAsync(update, cancellationToken, commandData);
         }
     }
 }
