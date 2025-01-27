@@ -54,7 +54,7 @@ namespace Services.ThirdPartyAPIs.TelegramBot
 
             var activeCommand = await cacheService.GetAsync<CommandData>($"command:user:{from.Id}");
             await cacheService.RemoveAsync($"command:user:{from.Id}");
-            var commandEntity = message.Entities?.FirstOrDefault(e => e.Type == MessageEntityType.BotCommand);
+            var commandEntity = message?.Entities?.FirstOrDefault(e => e.Type == MessageEntityType.BotCommand);
             string commandText = string.Empty;
 
             // Handle Callback Queries
@@ -69,7 +69,7 @@ namespace Services.ThirdPartyAPIs.TelegramBot
                 commandText = parts[0];
             }
             // handle commands
-            else if (commandEntity is not null && message.Text is not null)
+            else if (commandEntity is not null && message?.Text is not null)
             {
                 //// Get Command
                 string pattern = @"^/([^@\s]+)";
